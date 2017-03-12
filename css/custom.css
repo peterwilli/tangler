@@ -1,0 +1,18 @@
+body {
+  padding-top: 60px;
+}
+
+.wrap-table {
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
+.logo{
+  max-height:40px;
+  margin-top: -7px;
+  margin-right: 5px;
+}
+
+.top-margin {
+  margin-top: 20px;
+}
