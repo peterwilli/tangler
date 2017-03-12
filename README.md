@@ -9,6 +9,8 @@
 
 Yet another iota tangle explorer.
 
+Visit [here](https://tangler.herokuapp.com/) for demo.
+
 ## Requirements
 
 This requires
