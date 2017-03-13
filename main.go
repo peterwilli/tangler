@@ -124,12 +124,12 @@ func txHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params := r.PostFormValue("trytes")
-	trytes := giota.Trytes(strings.TrimSpace(params))
-	if trytes == "" {
+	if params == "" {
 		renderTxError(w, "", errors.New("Input transaction trytes above"))
 		return
 	}
-	if err := trytes.IsValid(); renderTxError(w, trytes, err) {
+	trytes, err := giota.ToTrytes(strings.TrimSpace(params))
+	if renderTxError(w, giota.Trytes(params), err) {
 		return
 	}
 	tx, err := giota.NewTransaction(trytes.Trits())
@@ -199,13 +199,21 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	kind := q.Get("kind")
 	hash := q.Get("hash")
+	trytes, err := giota.ToTrytes(hash)
+	if renderIfError(w, err) {
+		return
+	}
 	switch kind {
 	case "transaction":
-		searchTX(w, giota.Trytes(hash))
+		searchTX(w, trytes)
 	case "address":
-		searchAddress(w, giota.Address(hash))
+		adr, err := trytes.ToAddress()
+		if renderIfError(w, err) {
+			return
+		}
+		searchAddress(w, adr)
 	case "bundle":
-		searchBundle(w, giota.Trytes(hash))
+		searchBundle(w, trytes)
 	default:
 		renderIfError(w, errors.New("illegal request"))
 	}
@@ -270,6 +278,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 		log.Print(err)
 	}
 }
+
 func searchAddress(w http.ResponseWriter, hash giota.Address) {
 	server := giota.RandomNode()
 	//server := giota.PublicNode[0]
@@ -319,6 +328,7 @@ func searchAddress(w http.ResponseWriter, hash giota.Address) {
 		log.Print(err)
 	}
 }
+
 func searchBundle(w http.ResponseWriter, hash giota.Trytes) {
 	server := giota.RandomNode()
 	//server := giota.PublicNode[0]
