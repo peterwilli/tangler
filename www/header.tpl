@@ -36,7 +36,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-            <li class="active"><a href="/analyze_tx/">Anylze Transaction</a></li>
+            <li class="active"><a href="/analyze_tx/">Analyze Transaction</a></li>
             </ul>
                 <form class="navbar-form navbar-right" action="/search/">
                     <select class="form-control" name="kind">

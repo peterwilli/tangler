@@ -31,6 +31,23 @@ This requires
     $ go build
     $ ./tangler
 
+# Using Uour IRI Server
+
+By default tangler uses public nodes listed at [here](http://iotasupport.com/lightwallet.shtml).
+If you want to use your own IRI server,  you would need to change every lines in main.go
+
+```
+server := giota.RandomNode()
+```
+
+to
+
+```
+server:="http://localhost:14265"
+```
+
+or something.
+
 # Contribution
 Improvements to the codebase and pull requests are encouraged.
 
