@@ -31,7 +31,7 @@ This requires
     $ go build
     $ ./tangler
 
-# Using Uour IRI Server
+# Using Own IRI Server
 
 By default tangler uses public nodes listed at [here](http://iotasupport.com/lightwallet.shtml).
 If you want to use your own IRI server,  you would need to change every lines in main.go
