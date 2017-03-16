@@ -3,10 +3,10 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "GulXthzNZKmEDe+JpiLcYHWqz9U=",
-			"path": "github.com/utamaro/giota",
-			"revision": "5b7f5300fe938a445eaa9835fe1e266347cec82d",
-			"revisionTime": "2017-03-13T10:25:45Z"
+			"checksumSHA1": "ChkcMA2/0MZN+6Lq6WorLGOi3qY=",
+			"path": "github.com/iotaledger/giota",
+			"revision": "4f0f1275456eebac587bf94ca529ea3809bc24d0",
+			"revisionTime": "2017-03-16T10:14:52Z"
 		}
 	],
 	"rootPath": "github.com/utamaro/tangler"
