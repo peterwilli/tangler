@@ -35,7 +35,7 @@ import (
 
 	"strings"
 
-	"github.com/utamaro/giota"
+	"github.com/iotaledger/giota"
 )
 
 func main() {
@@ -171,8 +171,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		wd.Done()
 	}()
 	go func() {
-		anr := &giota.GetTransactionsToApproveRequest{Depth: 0}
-		txs, err2 = api.GetTransactionsToApprove(anr)
+		txs, err2 = api.GetTransactionsToApprove(0)
 		wd.Done()
 	}()
 	wd.Wait()
@@ -231,8 +230,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	wd := sync.WaitGroup{}
 	wd.Add(2)
 	go func() {
-		anr := &giota.GetTrytesRequest{Hashes: []giota.Trytes{hash}}
-		gt, err1 = api.GetTrytes(anr)
+		gt, err1 = api.GetTrytes([]giota.Trytes{hash})
 		wd.Done()
 	}()
 	go func() {
@@ -248,8 +246,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 		return
 	}
 
-	anr := &giota.GetInclusionStatesRequest{Transactions: []giota.Trytes{hash}, Tips: []string{ni.LatestMilestone}}
-	resp, err := api.GetInclusionStates(anr)
+	resp, err := api.GetInclusionStates([]giota.Trytes{hash}, []giota.Trytes{ni.LatestMilestone})
 	if renderIfError(w, err) {
 		return
 	}
@@ -295,8 +292,7 @@ func searchAddress(w http.ResponseWriter, hash giota.Address) {
 		wd.Done()
 	}()
 	go func() {
-		ftr := &giota.GetBalancesRequest{Addresses: []giota.Address{hash}}
-		gb, err2 = api.GetBalances(ftr)
+		gb, err2 = api.GetBalances([]giota.Address{hash}, 100)
 		wd.Done()
 	}()
 	wd.Wait()
