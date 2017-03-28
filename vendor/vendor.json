@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "pyQ3immqG0nHi4oGuh+jyYa/lU4=",
+			"path": "github.com/iotaledger/giota",
+			"revision": "8461db172a6cec1b053e54dbb7a6163eb5e064be",
+			"revisionTime": "2017-03-28T02:23:39Z"
+		}
+	],
+	"rootPath": "github.com/utamaro/tangler"
+}
