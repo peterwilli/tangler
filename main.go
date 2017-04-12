@@ -57,6 +57,7 @@ func main() {
 }
 
 var (
+	client  *http.Client
 	tmpl    *template.Template
 	funcMap = template.FuncMap{
 		"localtime": func(stamp int64) string {
@@ -77,6 +78,9 @@ func init() {
 	tmpl.Funcs(funcMap)
 	if _, err = tmpl.ParseGlob("www/*.tpl"); err != nil {
 		log.Fatal(err)
+	}
+	client = &http.Client{
+		Timeout: 15 * time.Second,
 	}
 }
 
@@ -159,32 +163,16 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	var txs *giota.GetTransactionsToApproveResponse
 	var err1 error
 	var err2 error
-	wd := sync.WaitGroup{}
-	wd.Add(2)
 	var server string
-	go func() {
-		for i := 0; i < 5; i++ {
-			server = giota.RandomNode()
-			api := giota.NewAPI(server, nil)
-			ni, err1 = api.GetNodeInfo()
-			if err1 == nil {
-				break
-			}
+	for i := 0; i < 5; i++ {
+		server = giota.RandomNode()
+		api := giota.NewAPI(server, client)
+		ni, err1 = api.GetNodeInfo()
+		txs, err2 = api.GetTransactionsToApprove(0)
+		if err1 == nil && err2 == nil {
+			break
 		}
-		wd.Done()
-	}()
-	go func() {
-		for i := 0; i < 5; i++ {
-			server = giota.RandomNode()
-			api := giota.NewAPI(server, nil)
-			txs, err2 = api.GetTransactionsToApprove(0)
-			if err1 == nil {
-				break
-			}
-		}
-		wd.Done()
-	}()
-	wd.Wait()
+	}
 	if renderIfError(w, err1, err2) {
 		return
 	}
@@ -239,7 +227,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	go func() {
 		for i := 0; i < 5; i++ {
 			server = giota.RandomNode()
-			api := giota.NewAPI(server, nil)
+			api := giota.NewAPI(server, client)
 			gt, err1 = api.GetTrytes([]giota.Trytes{hash})
 			if err1 == nil {
 				break
@@ -250,7 +238,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	go func() {
 		for i := 0; i < 5; i++ {
 			server = giota.RandomNode()
-			api := giota.NewAPI(server, nil)
+			api := giota.NewAPI(server, client)
 			ni, err2 = api.GetNodeInfo()
 			if err2 == nil {
 				break
@@ -270,7 +258,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	var resp *giota.GetInclusionStatesResponse
 	for i := 0; i < 5; i++ {
 		server = giota.RandomNode()
-		api := giota.NewAPI(server, nil)
+		api := giota.NewAPI(server, client)
 		resp, err = api.GetInclusionStates([]giota.Trytes{hash}, []giota.Trytes{ni.LatestMilestone})
 		if err == nil {
 			break
@@ -315,7 +303,7 @@ func searchAddress(w http.ResponseWriter, hash giota.Address) {
 	go func() {
 		for i := 0; i < 5; i++ {
 			server = giota.RandomNode()
-			api := giota.NewAPI(server, nil)
+			api := giota.NewAPI(server, client)
 			ftr := &giota.FindTransactionsRequest{Addresses: []giota.Address{hash}}
 			ft, err1 = api.FindTransactions(ftr)
 			if err1 == nil {
@@ -327,7 +315,7 @@ func searchAddress(w http.ResponseWriter, hash giota.Address) {
 	go func() {
 		for i := 0; i < 5; i++ {
 			server = giota.RandomNode()
-			api := giota.NewAPI(server, nil)
+			api := giota.NewAPI(server, client)
 			gb, err2 = api.GetBalances([]giota.Address{hash}, 100)
 			if err2 == nil {
 				break
@@ -372,7 +360,7 @@ func searchBundle(w http.ResponseWriter, hash giota.Trytes) {
 	var server string
 	for i := 0; i < 5; i++ {
 		server = giota.RandomNode()
-		api := giota.NewAPI(server, nil)
+		api := giota.NewAPI(server, client)
 		ftr := &giota.FindTransactionsRequest{Bundles: []giota.Trytes{hash}}
 		ft, err1 = api.FindTransactions(ftr)
 		if err1 == nil {
