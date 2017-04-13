@@ -259,7 +259,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	for i := 0; i < 5; i++ {
 		server = giota.RandomNode()
 		api := giota.NewAPI(server, client)
-		resp, err = api.GetInclusionStates([]giota.Trytes{hash}, []giota.Trytes{ni.LatestMilestone})
+		resp, err = api.GetInclusionStates([]giota.Trytes{hash}, []giota.Trytes{ni.LatestSolidSubtangleMilestone})
 		if err == nil {
 			break
 		}
