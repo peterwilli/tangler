@@ -29,7 +29,7 @@
                         <td>{{.NodeInfo.LatestSolidSubtangleMilestoneIndex}}</td>
                     </tr>
                     <tr>
-                        <td>Number of neibours</td>
+                        <td>Number of Neighbors</td>
                         <td>{{.NodeInfo.Neighbors}}</td>
                     </tr>
                     <tr>
