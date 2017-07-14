@@ -23,11 +23,9 @@ This requires
 
     $ mkdir tmp
     $ cd tmp
-    $ mkdir src
-    $ mkdir bin
-    $ mkdir pkg
-    $ exoprt GOPATH=`pwd`
-    $ go get github.com/utamaro/tangler
+    $ export GOPATH=`pwd`
+    $ go get -d github.com/utamaro/tangler
+    $ cd src/github.com/utamaro/tangler
     $ go build
     $ ./tangler
 
