@@ -359,7 +359,7 @@ func searchBundle(w http.ResponseWriter, hash giota.Trytes) {
 	var err1 error
 	var server string
 	for i := 0; i < 5; i++ {
-		server = giota.RandomNode()
+		server:="http://52.18.170.164:14700"
 		api := giota.NewAPI(server, client)
 		ftr := &giota.FindTransactionsRequest{Bundles: []giota.Trytes{hash}}
 		ft, err1 = api.FindTransactions(ftr)
