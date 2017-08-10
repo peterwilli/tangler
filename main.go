@@ -165,7 +165,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	var err2 error
 	var server string
 	for i := 0; i < 5; i++ {
-		server:="http://52.18.170.164:14700"
+		server:="http://52.58.212.188:14700"
 		api := giota.NewAPI(server, client)
 		ni, err1 = api.GetNodeInfo()
 		txs, err2 = api.GetTransactionsToApprove(0)
@@ -226,7 +226,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	var server string
 	go func() {
 		for i := 0; i < 5; i++ {
-			server:="http://52.18.170.164:14700"
+			server:="http://52.58.212.188:14700"
 			api := giota.NewAPI(server, client)
 			gt, err1 = api.GetTrytes([]giota.Trytes{hash})
 			if err1 == nil {
@@ -237,7 +237,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	}()
 	go func() {
 		for i := 0; i < 5; i++ {
-			server:="http://52.18.170.164:14700"
+			server:="http://52.58.212.188:14700"
 			api := giota.NewAPI(server, client)
 			ni, err2 = api.GetNodeInfo()
 			if err2 == nil {
@@ -257,7 +257,7 @@ func searchTX(w http.ResponseWriter, hash giota.Trytes) {
 	var err error
 	var resp *giota.GetInclusionStatesResponse
 	for i := 0; i < 5; i++ {
-		server:="http://52.18.170.164:14700"
+		server:="http://52.58.212.188:14700"
 		api := giota.NewAPI(server, client)
 		resp, err = api.GetInclusionStates([]giota.Trytes{hash}, []giota.Trytes{ni.LatestSolidSubtangleMilestone})
 		if err == nil {
@@ -302,7 +302,7 @@ func searchAddress(w http.ResponseWriter, hash giota.Address) {
 	var server string
 	go func() {
 		for i := 0; i < 5; i++ {
-			server:="http://52.18.170.164:14700"
+			server:="http://52.58.212.188:14700"
 			api := giota.NewAPI(server, client)
 			ftr := &giota.FindTransactionsRequest{Addresses: []giota.Address{hash}}
 			ft, err1 = api.FindTransactions(ftr)
@@ -314,7 +314,7 @@ func searchAddress(w http.ResponseWriter, hash giota.Address) {
 	}()
 	go func() {
 		for i := 0; i < 5; i++ {
-			server:="http://52.18.170.164:14700"
+			server:="http://52.58.212.188:14700"
 			api := giota.NewAPI(server, client)
 			gb, err2 = api.GetBalances([]giota.Address{hash}, 100)
 			if err2 == nil {
@@ -359,7 +359,7 @@ func searchBundle(w http.ResponseWriter, hash giota.Trytes) {
 	var err1 error
 	var server string
 	for i := 0; i < 5; i++ {
-		server:="http://52.18.170.164:14700"
+		server:="http://52.58.212.188:14700"
 		api := giota.NewAPI(server, client)
 		ftr := &giota.FindTransactionsRequest{Bundles: []giota.Trytes{hash}}
 		ft, err1 = api.FindTransactions(ftr)
